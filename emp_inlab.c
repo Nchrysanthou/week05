@@ -1,25 +1,24 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define SIZE 2
 
 struct Employee
 {
-    int id;
-    int age;
-    double salary;
-} emp[SIZE] = {0};
+    bool Filled;
+    int ID;
+    int Age;
+    double Salary;
+
+} emp[SIZE];
 
 int main(void)
 {
-
-    bool complete = false;
-    int numEmployees = 0;
-    int option = 0, i = 0;
+    int option = 0;
+    bool exit = false;
 
     printf("---=== EMPLOYEE DATA ===---\n\n");
-
     do
     {
         printf("1. Display Employee Information\n");
@@ -28,46 +27,54 @@ int main(void)
 
         printf("Please select from the above options: ");
         scanf("%d", &option);
+        printf("\n");
 
         switch (option)
         {
-
-        default: // Unknown entry
+        default:
             break;
+        case 1:
+            printf("EMP ID\tEMP AGE\tEMP SALARY\n");
+            printf("======\t=======\t==========\n");
 
-        case 0: // Exit
-            printf("Exiting Employee Data Program. Good Bye!!!");
-            complete = true;
-            break;
+            for (int i = 0; i < SIZE; i++)
+                printf("%6d%9d%11.2lf\n", emp[i].ID, emp[i].Age, emp[i].Salary);
 
-        case 1: // Display Function
-            for (int i = 0; i < sizeof(emp); i++)
-                printf("%6d%9d%11.2lf", emp[i].id, emp[i].age, emp[i].salary);
             printf("\n");
             break;
-        case 2: // Add Employee
-        {
-            if (i >= sizeof(emp))
-                printf("ERROR!!! Maximum Number Of Employees Reached");
+        case 2:
 
-            while (i <= SIZE)
+            printf("Adding Employee\n");
+            printf("===============\n");
+
+            if (emp[0].Filled && emp[1].Filled)
+                printf("ERORR!!! Maximum Number Of Employees Reached\n\n");
+            else
             {
-                printf("Adding Employee\n");
-                printf("===============\n");
-                printf("Enter Employee ID: ");
-                scanf("%d", &emp[i].id);
-                printf("Enter Employee Age: ");
-                scanf("%d", &emp[i].id);
-                printf("Enter Employee Salary: ");
-                scanf("%.2lf", &emp[i].id);
-                i++;
-                printf("%d", emp[i]);
-            }
-        }
-        break;
-        }
+                for (int i = 0; i < SIZE; i++)
+                {
+                    if (emp[0].Filled)
+                        i++;
 
-    } while (!complete);
+                    printf("Enter Employee ID: ");
+                    scanf("%d", &emp[i].ID);
+                    printf("Enter Employee Age: ");
+                    scanf("%d", &emp[i].Age);
+                    printf("Enter Employee Salary: ");
+                    scanf("%lf", &emp[i].Salary);
+                    emp[i].Filled = true;
+                    printf("\n");
+                    break;
+                }
+            }
+
+            break;
+        case 0:
+            printf("Exiting Employee Data Program. Good Bye!!!");
+            exit = true;
+            break;
+        }
+    } while (!exit);
 
     return 0;
 }
